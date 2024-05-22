@@ -24,6 +24,9 @@ The form should have the following validations:
 Refresh the list of voyages once a voyage has been successfully created.
 Display [https://ui.shadcn.com/docs/components/toast](https://ui.shadcn.com/docs/components/toast) with a success message.
 
+### Using Zod and React Hook Form
+To handle form validation and management, use [Zod](https://github.com/colinhacks/zod) and [React Hook Form](https://react-hook-form.com/).
+
 ## Task 2 - Introduce UnitType Relation to Voyage
 Enable adding at least 5 UnitTypes to a voyage.
 Ensure selection of a minimum of 5 UnitTypes.
