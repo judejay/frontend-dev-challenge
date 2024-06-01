@@ -1,5 +1,14 @@
 {
-  "compilerOptions": {
+  "compilerOptions": {  
+    "baseUrl": ".",
+    "paths": {
+      "@/components/*": [
+        "./src/components/*"
+      ],
+      "~/*": [
+        "./src/*"
+      ],
+    },
     "target": "es2017",
     "lib": [
       "dom",
@@ -20,12 +29,7 @@
     "jsx": "preserve",
     "incremental": true,
     "noUncheckedIndexedAccess": true,
-    "baseUrl": ".",
-    "paths": {
-      "~/*": [
-        "./src/*"
-      ]
-    },
+    
     "plugins": [
       {
         "name": "next"

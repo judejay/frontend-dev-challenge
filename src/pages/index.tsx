@@ -14,6 +14,20 @@ import { fetchData } from "~/utils";
 import type { ReturnType } from "./api/voyage/getAll";
 import { Button } from "~/components/ui/button";
 import { TABLE_DATE_FORMAT } from "~/constants";
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "../components/ui/sheet"
+
+import { Label } from "../components/ui/label"
+import { Input } from "../components/ui/input"
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 
 export default function Home() {
   const { data: voyages } = useQuery<ReturnType>({
@@ -52,6 +66,57 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
+      <Sheet>
+      <SheetTrigger asChild>
+        <Button variant="outline">Create</Button>
+      </SheetTrigger>
+      <SheetContent>
+        <SheetHeader>
+          <SheetTitle>Create Voyage</SheetTitle>
+          <SheetDescription>
+            Create a voyage here. Click save when you're done.
+          </SheetDescription>
+        </SheetHeader>
+        <div className="grid gap-4 py-4">
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="departure" className="text-right">
+              Departure
+            </Label>
+            <DateTimePicker granularity="second" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="arrival" className="text-right">
+              Arrival
+            </Label>
+            <DateTimePicker granularity="second" />
+          </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="portOfLoading" className="text-right">
+              Port of loading
+            </Label>
+            <Input id="portOfLoading" />
+            </div>
+          <div className="grid grid-cols-4 items-center gap-4">
+            <Label htmlFor="portOfDischarge" className="text-right">
+              Port of discharge
+            </Label>
+            <Input id="portOfDischarge" />
+        </div>
+        <div className="grid grid-cols-4 items-center gap-4">
+          <Label htmlFor="vessel" className="text-right">
+            Vessel
+          </Label>
+          <Input id="vessel" />
+          </div>
+        </div>
+        <SheetFooter>
+          <SheetClose asChild>
+            <Button type="submit">Save changes</Button>
+          </SheetClose>
+        </SheetFooter>
+      </SheetContent>
+</Sheet>
+
         <Table>
           <TableHeader>
             <TableRow>
