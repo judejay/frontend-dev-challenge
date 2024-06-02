@@ -28,6 +28,7 @@ import {
 import { Label } from "../components/ui/label"
 import { Input } from "../components/ui/input"
 import { DateTimePicker } from "@/components/ui/datetime-picker";
+import { RfhZod } from "@/components/rfhZod";
 import { useState } from "react";
 
 export default function Home() {
@@ -95,41 +96,7 @@ export default function Home() {
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
-          <form onSubmit={handleFormSubmit}>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="departure" className="text-right">
-              Departure
-            </Label>
-            <DateTimePicker jsDate={departure} onJsDateChange={setDeparture} granularity="second" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="arrival" className="text-right">
-              Arrival
-            </Label>
-            <DateTimePicker jsDate={arrival} onJsDateChange={setArrival} granularity="second" />
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="portOfLoading" className="text-right">
-              Port of loading
-            </Label>
-            <Input id="portOfLoading"  onChange={(e) => setPortOfLoading(e.target.value)}/>
-            </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="portOfDischarge" className="text-right">
-              Port of discharge
-            </Label>
-            <Input id="portOfDischarge" onChange={(e) => setPortOfDischarge(e.target.value)}/>
-        </div>
-        <div className="grid grid-cols-4 items-center gap-4">
-          <Label htmlFor="vessel" className="text-right">
-            Vessel
-          </Label>
-          <Input id="vessel" onChange={(e) => setVessel(e.target.value)} />
-          </div>
-          <SheetClose asChild>
-            <Button type="submit">Save changes</Button>
-          </SheetClose>
-       </form> 
+          <RfhZod />
        </div>        
         <SheetFooter>
           
