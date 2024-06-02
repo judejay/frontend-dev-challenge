@@ -28,8 +28,16 @@ import {
 import { Label } from "../components/ui/label"
 import { Input } from "../components/ui/input"
 import { DateTimePicker } from "@/components/ui/datetime-picker";
+import { useState } from "react";
 
 export default function Home() {
+
+  const [departure, setDeparture] = useState<Date | null>(null)
+  const [arrival, setArrival] = useState<Date | null>(null)
+  const [portOfLoading, setPortOfLoading] = useState<string>("")
+  const [portOfDischarge, setPortOfDischarge] = useState<string>("")
+  const [vessel, setVessel] = useState<string>("")
+  
   const { data: voyages } = useQuery<ReturnType>({
     queryKey: ["voyages"],
 
@@ -59,6 +67,15 @@ export default function Home() {
     mutation.mutate(voyageId);
   };
 
+  const handleFormSubmit = async (e: any) => {
+    e.preventDefault();
+
+    try {
+      console.log(departure, arrival, portOfLoading, portOfDischarge, vessel);
+    } catch (error) {
+      console.error(error);
+    }
+  };
   return (
     <>
       <Head>
@@ -78,41 +95,44 @@ export default function Home() {
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-4 py-4">
+          <form onSubmit={handleFormSubmit}>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="departure" className="text-right">
               Departure
             </Label>
-            <DateTimePicker granularity="second" />
+            <DateTimePicker jsDate={departure} onJsDateChange={setDeparture} granularity="second" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="arrival" className="text-right">
               Arrival
             </Label>
-            <DateTimePicker granularity="second" />
+            <DateTimePicker jsDate={arrival} onJsDateChange={setArrival} granularity="second" />
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="portOfLoading" className="text-right">
               Port of loading
             </Label>
-            <Input id="portOfLoading" />
+            <Input id="portOfLoading"  onChange={(e) => setPortOfLoading(e.target.value)}/>
             </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <Label htmlFor="portOfDischarge" className="text-right">
               Port of discharge
             </Label>
-            <Input id="portOfDischarge" />
+            <Input id="portOfDischarge" onChange={(e) => setPortOfDischarge(e.target.value)}/>
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="vessel" className="text-right">
             Vessel
           </Label>
-          <Input id="vessel" />
+          <Input id="vessel" onChange={(e) => setVessel(e.target.value)} />
           </div>
-        </div>
-        <SheetFooter>
           <SheetClose asChild>
             <Button type="submit">Save changes</Button>
           </SheetClose>
+       </form> 
+       </div>        
+        <SheetFooter>
+          
         </SheetFooter>
       </SheetContent>
 </Sheet>
