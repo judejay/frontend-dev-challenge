@@ -1,13 +1,11 @@
 /* eslint-disable @typescript-eslint/no-misused-promises */
 "use client";
 
-import { useForm, SubmitHandler } from "react-hook-form";
-
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
 
 import { FormDataSchema } from "~/lib/schema";
-
 import { DateTimePicker } from "./ui/datetime-picker";
 import { Input } from "./ui/input";
 
@@ -20,9 +18,13 @@ import {
   FormMessage,
 } from "./ui/form";
 
+import { toast } from "./ui/use-toast";
+import { useState } from "react";
+
 type Inputs = z.infer<typeof FormDataSchema>;
 
 export const RfhZod = () => {
+  const [loading, setLoading] = useState(false);
   const DEFAULT_VALUE = {};
 
   const formData = useForm<Inputs>({
@@ -33,7 +35,24 @@ export const RfhZod = () => {
   const { control, handleSubmit } = formData;
 
   function onSubmit(data: Inputs) {
+    setLoading(true);
     console.log("data", data);
+    setTimeout(() => {
+      setLoading(false);
+      toast({
+        title: "Your submitted data",
+        description: (
+          <>
+            <p className="text-red-600">Data submitted.</p>
+            <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+              <code className="text-white">
+                {JSON.stringify(data, null, 2)}
+              </code>
+            </pre>
+          </>
+        ),
+      });
+    }, 500);
   }
 
   return (
