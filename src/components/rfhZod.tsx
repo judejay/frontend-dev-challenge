@@ -19,6 +19,9 @@ export const RfhZod = () => {
     register,
     handleSubmit,
     reset,
+    watch,
+    setValue,
+    trigger,
     formState: { errors },
   } = useForm<Inputs>({
     resolver: zodResolver(FormDataSchema),
@@ -32,22 +35,57 @@ export const RfhZod = () => {
     setSubmittedData(data)
   }
 
+console.log("errors", errors) ;
+console.log("wacth", watch('scheduledDeparture'))
+
   return (
     <section className='flex gap-6'>
     <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="departure" className="text-right">
-             Departure
-            </Label>
-            <DateTimePicker {...register('scheduledDeparture')} onChange={(value) => register('scheduledDeparture').onChange({ target: { value } })} onBlur={(value) => register('scheduledDeparture').onBlur({ target: { value } })} granularity="second" />
-         </div>
+        <Label htmlFor="scheduledDeparture" className="text-right">
+            Departure
+        </Label>
+        <DateTimePicker 
+            isRequired 
+            onChange={(value) => {
+        setValue('scheduledDeparture', {
+                year: value.year, // Provide an initializer for the 'year' property
+                identifier: '',
+                era: '',
+                month: 0,
+                day: 0,
+                hour: 0,
+                minute: 0,
+                second: 0,
+                millisecond: 0
+        }, { shouldValidate: true });
+    }}
+            onBlur={() => trigger('scheduledDeparture')}
+            granularity="second" 
+        />
         {errors.scheduledDeparture?.message && <p className='text-sm text-red-400'>{errors.scheduledDeparture.message}</p>}
 
     <div className="grid grid-cols-4 items-center gap-4">
-            <Label htmlFor="arrival" className="text-right">
+            <Label htmlFor="scheduledArrival" className="text-right">
               Arrival
             </Label>
-            <DateTimePicker {...register('scheduledArrival')} onChange={(value) => register('scheduledArrival').onChange({ target: { value }})} granularity="second" />
+            <DateTimePicker
+             isRequired 
+             onChange={(value) => {
+         setValue('scheduledArrival', {
+                 year: value.year, // Provide an initializer for the 'year' property
+                 identifier: '',
+                 era: '',
+                 month: 0,
+                 day: 0,
+                 hour: 0,
+                 minute: 0,
+                 second: 0,
+                 millisecond: 0
+         }, { shouldValidate: true });
+     }}
+             onBlur={() => trigger('scheduledDeparture')}
+            
+            granularity="second" />
           </div>
 {errors.scheduledArrival?.message && <p className='text-sm text-red-400'>{errors.scheduledArrival.message}</p>}
            <div className="grid grid-cols-4 items-center gap-4">

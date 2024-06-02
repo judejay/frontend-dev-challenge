@@ -16,7 +16,7 @@ import { Button } from "~/components/ui/button";
 import { TABLE_DATE_FORMAT } from "~/constants";
 import {
   Sheet,
-  SheetClose,
+
   SheetContent,
   SheetDescription,
   SheetFooter,
@@ -25,19 +25,12 @@ import {
   SheetTrigger,
 } from "../components/ui/sheet"
 
-import { Label } from "../components/ui/label"
-import { Input } from "../components/ui/input"
-import { DateTimePicker } from "@/components/ui/datetime-picker";
 import { RfhZod } from "@/components/rfhZod";
-import { useState } from "react";
+
 
 export default function Home() {
 
-  const [departure, setDeparture] = useState<Date | null>(null)
-  const [arrival, setArrival] = useState<Date | null>(null)
-  const [portOfLoading, setPortOfLoading] = useState<string>("")
-  const [portOfDischarge, setPortOfDischarge] = useState<string>("")
-  const [vessel, setVessel] = useState<string>("")
+  
   
   const { data: voyages } = useQuery<ReturnType>({
     queryKey: ["voyages"],
@@ -68,15 +61,7 @@ export default function Home() {
     mutation.mutate(voyageId);
   };
 
-  const handleFormSubmit = async (e: any) => {
-    e.preventDefault();
 
-    try {
-      console.log(departure, arrival, portOfLoading, portOfDischarge, vessel);
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <>
       <Head>
@@ -88,7 +73,7 @@ export default function Home() {
       <SheetTrigger asChild>
         <Button variant="outline">Create</Button>
       </SheetTrigger>
-      <SheetContent>
+      <SheetContent side="top">
         <SheetHeader>
           <SheetTitle>Create Voyage</SheetTitle>
           <SheetDescription>
