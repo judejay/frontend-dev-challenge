@@ -1,4 +1,9 @@
-import { InvalidateQueryFilters, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import {
+  InvalidateQueryFilters,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { format } from "date-fns";
 import Head from "next/head";
 import Layout from "~/components/layout";
@@ -16,29 +21,22 @@ import { Button } from "~/components/ui/button";
 import { TABLE_DATE_FORMAT } from "~/constants";
 import {
   Sheet,
-
   SheetContent,
   SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "../components/ui/sheet"
+} from "../components/ui/sheet";
 
 import { RfhZod } from "@/components/rfhZod";
 
-
 export default function Home() {
-
-  
-  
   const { data: voyages } = useQuery<ReturnType>({
     queryKey: ["voyages"],
 
-    queryFn: () =>
-      fetchData("voyage/getAll")
+    queryFn: () => fetchData("voyage/getAll"),
   });
-
 
   const queryClient = useQueryClient();
   const mutation = useMutation({
@@ -51,16 +49,16 @@ export default function Home() {
         throw new Error("Failed to delete the voyage");
       }
     },
-   	onSuccess: async () => {
-        await queryClient.invalidateQueries(["voyages"] as InvalidateQueryFilters);
-      },
-    }
-  );
+    onSuccess: async () => {
+      await queryClient.invalidateQueries([
+        "voyages",
+      ] as InvalidateQueryFilters);
+    },
+  });
 
   const handleDelete = (voyageId: string) => {
     mutation.mutate(voyageId);
   };
-
 
   return (
     <>
@@ -69,25 +67,23 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-      <Sheet>
-      <SheetTrigger asChild>
-        <Button variant="outline">Create</Button>
-      </SheetTrigger>
-      <SheetContent side="top">
-        <SheetHeader>
-          <SheetTitle>Create Voyage</SheetTitle>
-          <SheetDescription>
-            Create a voyage here. Click save when you're done.
-          </SheetDescription>
-        </SheetHeader>
-        <div className="grid gap-4 py-4">
-          <RfhZod />
-       </div>        
-        <SheetFooter>
-          
-        </SheetFooter>
-      </SheetContent>
-</Sheet>
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline">Create</Button>
+          </SheetTrigger>
+          <SheetContent side="top">
+            <SheetHeader>
+              <SheetTitle>Create Voyage</SheetTitle>
+              <SheetDescription>
+                Create a voyage here. Click save when you&apos;re done.
+              </SheetDescription>
+            </SheetHeader>
+            <div className="grid gap-4 py-4">
+              <RfhZod />
+            </div>
+            <SheetFooter></SheetFooter>
+          </SheetContent>
+        </Sheet>
 
         <Table>
           <TableHeader>
@@ -106,7 +102,7 @@ export default function Home() {
                 <TableCell>
                   {format(
                     new Date(voyage.scheduledDeparture),
-                    TABLE_DATE_FORMAT
+                    TABLE_DATE_FORMAT,
                   )}
                 </TableCell>
                 <TableCell>
