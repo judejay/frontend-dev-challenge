@@ -4,7 +4,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { z } from "zod";
-import { Controller } from "react-hook-form"; // Import the Controller component from the 'react-hook-form' package
 
 import { FormDataSchema } from "~/lib/schema";
 import { DateTimePicker } from "./ui/datetime-picker";
@@ -34,14 +33,13 @@ import {
   SelectContent,
   SelectItem,
 } from "./ui/select";
-import { ToggleGroup, ToggleGroupItem } from "../components/ui/toggle-group";
 import { fetchData } from "~/utils";
 import { Checkbox } from "./ui/checkbox";
 import { VesselsType } from "~/pages/api/vessel/getAll";
 
 type Inputs = z.infer<typeof FormDataSchema>;
 
-export const RfhZod = () => {
+export const RfhZod = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
   const [loading, setLoading] = useState(false);
 
   const DEFAULT_VALUE: Inputs = {
@@ -115,6 +113,7 @@ export const RfhZod = () => {
     data.unitTypes = unitTypes;
     handleCreate(data);
     setLoading(false);
+    setOpen(false);
   }
   return (
     <section className="flex gap-6">

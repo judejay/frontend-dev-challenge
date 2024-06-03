@@ -30,8 +30,10 @@ import {
 } from "../components/ui/sheet";
 
 import { RfhZod } from "@/components/rfhZod";
+import { useState } from "react";
 
 export default function Home() {
+  const [open, setOpen] = useState(false);
   const { data: voyages } = useQuery<ReturnType>({
     queryKey: ["voyages"],
 
@@ -67,7 +69,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Layout>
-        <Sheet>
+        <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
             <Button variant="outline">Create</Button>
           </SheetTrigger>
@@ -79,7 +81,7 @@ export default function Home() {
               </SheetDescription>
             </SheetHeader>
             <div className="grid gap-4 py-4">
-              <RfhZod />
+              <RfhZod setOpen={setOpen} />
             </div>
             <SheetFooter></SheetFooter>
           </SheetContent>
