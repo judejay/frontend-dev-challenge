@@ -28,7 +28,11 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "../components/ui/sheet";
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { RfhZod } from "@/components/rfhZod";
 import { useState } from "react";
 
@@ -95,6 +99,7 @@ export default function Home() {
               <TableHead>Port of loading</TableHead>
               <TableHead>Port of discharge</TableHead>
               <TableHead>Vessel</TableHead>
+              <TableHead>Unit Types</TableHead>
               <TableHead>&nbsp;</TableHead>
             </TableRow>
           </TableHeader>
@@ -114,12 +119,41 @@ export default function Home() {
                 <TableCell>{voyage.portOfDischarge}</TableCell>
                 <TableCell>{voyage.vessel.name}</TableCell>
                 <TableCell>
-                  <Button
-                    onClick={() => handleDelete(voyage.id)}
-                    variant="outline"
-                  >
-                    X
-                  </Button>
+                  <Popover>
+                    <PopoverTrigger asChild>
+                      <Button variant="ghost" title="Click to see more.">
+                        {voyage.unitTypes.length}
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-80">
+                      <div className="grid gap-4">
+                        <div className="space-y-2">
+                          <h4 className="font-medium leading-none">
+                            Unit Types
+                          </h4>
+
+                          <Table>
+                            <TableHeader>
+                              <TableRow>
+                                <TableHead>Name</TableHead>
+                                <TableHead>Default length</TableHead>
+                              </TableRow>
+                            </TableHeader>
+                            <TableBody>
+                              {voyage.unitTypes?.map((unitType) => (
+                                <TableRow key={unitType.id}>
+                                  <TableCell>{unitType.name}</TableCell>
+                                  <TableCell align="right">
+                                    {unitType.defaultLength}
+                                  </TableCell>
+                                </TableRow>
+                              ))}
+                            </TableBody>
+                          </Table>
+                        </div>
+                      </div>
+                    </PopoverContent>
+                  </Popover>
                 </TableCell>
               </TableRow>
             ))}
