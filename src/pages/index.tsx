@@ -75,7 +75,7 @@ export default function Home() {
             <SheetHeader>
               <SheetTitle>Create Voyage</SheetTitle>
               <SheetDescription>
-                Create a voyage here. Click save when you&apos;re done.
+                Create a voyage here. Click Submit when you&apos;re done.
               </SheetDescription>
             </SheetHeader>
             <div className="grid gap-4 py-4">

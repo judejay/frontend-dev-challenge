@@ -23,18 +23,23 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
-import { type VesselsType } from "~/pages/api/unitType/getAll";
+import type { UnitTypes } from "~/pages/api/unitType/getAll";
 
 import { toast } from "./ui/use-toast";
 import { useState } from "react";
-import { Select } from "./ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "./ui/select";
 import { ToggleGroup, ToggleGroupItem } from "../components/ui/toggle-group";
 import { fetchData } from "~/utils";
 import { Checkbox } from "./ui/checkbox";
+import { VesselsType } from "~/pages/api/vessel/getAll";
 
 type Inputs = z.infer<typeof FormDataSchema>;
-type UnitType = Pick<VesselsType, keyof VesselsType>;
-type UnitTypesMap = Record<string, UnitType[]>;
 
 export const RfhZod = () => {
   const [loading, setLoading] = useState(false);
@@ -48,10 +53,16 @@ export const RfhZod = () => {
     unitTypes: [],
   };
 
-  const { data: unitTypes } = useQuery<UnitType>({
+  const { data: unitTypes } = useQuery<UnitTypes>({
     queryKey: ["unitTypes"],
 
     queryFn: () => fetchData("unitType/getAll"),
+  });
+
+  const { data: vessels } = useQuery<VesselsType>({
+    queryKey: ["vessels"],
+
+    queryFn: () => fetchData("vessel/getAll"),
   });
 
   const formData = useForm<Inputs>({
@@ -93,7 +104,7 @@ export const RfhZod = () => {
     },
   });
 
-  const handleCreate = (data: Inputs) => {
+  const handleCreate: (data: Inputs) => void = (data) => {
     createVoyageMutation.mutate(data);
   };
 
@@ -174,21 +185,6 @@ export const RfhZod = () => {
               </FormItem>
             )}
           />
-
-          <FormField
-            control={control}
-            name="vessel"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel htmlFor="vessel">Vessel</FormLabel>
-                <FormControl>
-                  <Input {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
           <FormField
             control={control}
             name="unitTypes"
@@ -237,6 +233,36 @@ export const RfhZod = () => {
                     />
                   ))}
                 </div>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={control}
+            name="vessel"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Vessel</FormLabel>
+                <Select
+                  onValueChange={field.onChange}
+                  defaultValue={field.value}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select a Vessel" />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    <SelectItem value="-">Select a Vessel</SelectItem>
+                    {vessels?.map(
+                      (vessel: { value: string; label: string }) => (
+                        <SelectItem key={vessel.value} value={vessel.value}>
+                          {vessel.label}
+                        </SelectItem>
+                      ),
+                    )}
+                  </SelectContent>
+                </Select>
                 <FormMessage />
               </FormItem>
             )}

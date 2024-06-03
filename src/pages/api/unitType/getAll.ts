@@ -2,7 +2,7 @@ import { UnitType } from "@prisma/client";
 import type { NextApiHandler, NextApiResponse } from "next";
 import { prisma } from "~/server/db";
 
-export type VesselsType = UnitType[];
+export type UnitTypes = UnitType[];
 
 /**
  * @swagger
@@ -37,10 +37,7 @@ export type VesselsType = UnitType[];
  *       500:
  *         description: Internal Server Error - if there's an issue fetching the vessels.
  */
-const handler: NextApiHandler = async (
-  _,
-  res: NextApiResponse<VesselsType>,
-) => {
+const handler: NextApiHandler = async (_, res: NextApiResponse<UnitTypes>) => {
   const allUnitTypes: UnitType[] = await prisma.unitType.findMany();
   res.status(200).json(allUnitTypes);
 };
