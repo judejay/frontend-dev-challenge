@@ -84,7 +84,9 @@ export default function Home() {
       <Layout>
         <Sheet open={open} onOpenChange={setOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline">Create</Button>
+            <Button aria-label="Create Voyage" variant="outline">
+              Create
+            </Button>
           </SheetTrigger>
           <SheetContent side="top">
             <SheetHeader>
