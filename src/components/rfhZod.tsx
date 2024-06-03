@@ -207,6 +207,7 @@ export const RfhZod = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
                           >
                             <FormControl>
                               <Checkbox
+                                aria-label={unitType.name}
                                 checked={field.value?.includes(unitType.id)}
                                 onCheckedChange={(checked) => {
                                   return checked
@@ -245,6 +246,7 @@ export const RfhZod = ({ setOpen }: { setOpen: (open: boolean) => void }) => {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  aria-label="Select a Vessel"
                 >
                   <FormControl>
                     <SelectTrigger>

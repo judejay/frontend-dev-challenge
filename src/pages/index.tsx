@@ -1,5 +1,5 @@
 import {
-  InvalidateQueryFilters,
+  type InvalidateQueryFilters,
   useMutation,
   useQuery,
   useQueryClient,
