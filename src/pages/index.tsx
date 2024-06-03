@@ -34,6 +34,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { RfhZod } from "@/components/rfhZod";
+import { toast } from "@/components/ui/use-toast";
 import { useState } from "react";
 
 export default function Home() {
@@ -59,6 +60,14 @@ export default function Home() {
       await queryClient.invalidateQueries([
         "voyages",
       ] as InvalidateQueryFilters);
+    },
+    onError: (error: Error) => {
+      toast({
+        variant: "destructive",
+        description: `Failed to create the voyage.
+        ${error.message}
+        `,
+      });
     },
   });
 
@@ -154,6 +163,15 @@ export default function Home() {
                       </div>
                     </PopoverContent>
                   </Popover>
+                </TableCell>
+                <TableCell>
+                  <Button
+                    onClick={() => handleDelete(voyage.id)}
+                    variant="destructive"
+                    title="Delete"
+                  >
+                    X
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
